@@ -2,7 +2,7 @@ import typing
 
 from pydantic import BaseModel
 
-from config import get_config
+from src.config import get_config
 
 
 class Settings(BaseModel):

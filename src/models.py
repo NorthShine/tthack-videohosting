@@ -1,6 +1,6 @@
 import sqlalchemy as sa
 
-from db import Base
+from src.db import Base
 
 
 class User(Base):

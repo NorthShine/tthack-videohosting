@@ -4,7 +4,7 @@ debug = true
 admin_password = "badpassword"
 
 [postgresql]
-url = 'postgresql://tthack-user:tthack-password@localost:5432/tthack-db'
+url = 'postgresql://tthack-user:tthack-password@tthack-psql:5432/tthack-db'
 
 [selectel]
 base_url = "url"

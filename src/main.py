@@ -4,9 +4,12 @@ from fastapi.responses import JSONResponse
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 
-from schemas import Settings
+from src.config import get_config
+from src.schemas import Settings
 
-app = FastAPI()
+base_settings = get_config()['base']
+
+app = FastAPI(debug=base_settings['debug'])
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],

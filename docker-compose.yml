@@ -12,9 +12,18 @@ services:
     ports:
       - "5432:5432"
     restart: always
-    network_mode: "host"
     volumes:
       - psql:/var/lib/postgresql/data:rw
+
+  app:
+    image: tthack/videohosting
+    container_name: tthack-videohosting
+    ports:
+      - "80:80"
+    restart: always
+    command: sh -c "poetry run uvicorn src.main:app --host 0.0.0.0 --port 80"
+    depends_on:
+      - psql
 
 volumes:
   psql:

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["bibiba <vyckluchi75@gmail.com>"]
 readme = "README.md"
-packages = [{include = "tthack_videohosting"}]
+packages = []
 
 [tool.poetry.dependencies]
 python = "^3.10"

@@ -1,7 +1,7 @@
-from repositories import UserRepository
-from schemas import UserCreate
-from db import SessionLocal
-from config import get_config
+from src.repositories import UserRepository
+from src.schemas import UserCreate
+from src.db import SessionLocal
+from src.config import get_config
 
 
 def init_db():
