@@ -22,14 +22,6 @@ class UserRepository(BaseRepository):
     def get_user_by_username(self, username: str):
         return self.db.query(src.models.User).filter(src.models.User.username == username).first()
 
-    def create_user(self, user: src.schemas.UserCreate):
-        hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), salt.encode('utf-8'))
-        db_user = src.models.User(username=user.username, hashed_password=hashed_password)
-        self.db.add(db_user)
-        self.db.commit()
-        self.db.refresh(db_user)
-        return db_user
-
     def verify_password(self, user_id: int, password: str):
         user = self.get_user(user_id)
         return bcrypt.hashpw(password.encode('utf-8'), salt.encode('utf-8')) == user.hashed_password
