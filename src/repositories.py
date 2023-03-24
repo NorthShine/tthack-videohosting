@@ -30,8 +30,9 @@ class UserRepository(BaseRepository):
         self.db.refresh(db_user)
         return db_user
 
-    def verify_password(self, user: src.schemas.UserPassword, password: str):
-        return bcrypt.hashpw(password.encode('utf-8'), salt) == user.password
+    def verify_password(self, user_id: int, password: str):
+        user = self.get_user(user_id)
+        return bcrypt.hashpw(password.encode('utf-8'), salt.encode('utf-8')) == user.hashed_password
 
 
 class VideoRepository(BaseRepository):
