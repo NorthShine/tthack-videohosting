@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  psql:
+    image: postgres
+    container_name: tthack-psql
+    environment:
+      POSTGRES_DB: tthack-db
+      POSTGRES_USER: tthack-user
+      POSTGRES_PASSWORD: tthack-password
+    ports:
+      - "5432:5432"
+    restart: always
+    network_mode: "host"
+    volumes:
+      - psql:/var/lib/postgresql/data:rw
+
+volumes:
+  psql:
+    driver: local

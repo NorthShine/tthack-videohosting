@@ -23,7 +23,7 @@ class UserRepository(BaseRepository):
         return self.db.query(models.User).filter(models.User.username == username).first()
 
     def create_user(self, user: schemas.UserCreate):
-        hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), salt)
+        hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), salt.encode('utf-8'))
         db_user = models.User(username=user.username, hashed_password=hashed_password)
         self.db.add(db_user)
         self.db.commit()

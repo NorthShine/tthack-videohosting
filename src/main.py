@@ -4,7 +4,6 @@ from fastapi.responses import JSONResponse
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 
-from db import database
 from schemas import Settings
 
 app = FastAPI()
@@ -15,16 +14,6 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*'],
 )
-
-
-@app.on_event('startup')
-async def startup():
-    await database.connect()
-
-
-@app.on_event('shutdown')
-async def shutdown():
-    await database.disconnect()
 
 
 @AuthJWT.load_config

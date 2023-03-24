@@ -1,12 +1,10 @@
 [base]
-secret_key = "bad secret"
+secret_key = "badsecret"
 debug = true
+admin_password = "badpassword"
 
 [postgresql]
-login = 'tthack-user'
-password = 'tthack-password'
-name = 'tthack-db'
-url = 'localhost:5432'
+url = 'postgresql://tthack-user:tthack-password@localost:5432/tthack-db'
 
 [selectel]
 base_url = "url"
