@@ -29,14 +29,6 @@ class UserRepository(BaseRepository):
         user = await self.get_user(user_id)
         return bcrypt.hashpw(password.encode('utf-8'), salt.encode('utf-8')) == user.hashed_password
 
-    async def create_user(self, user: src.schemas.UserCreate):
-        hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), salt.encode('utf-8'))
-        query = UserModel.__table__.insert().values(
-            username=user.username,
-            hashed_password=str(hashed_password),
-        )
-        return await self.db.execute(query)
-
 
 class VideoRepository(BaseRepository):
     async def get_video(self, video_id: int):
