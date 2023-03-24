@@ -1,0 +1,16 @@
+[base]
+secret_key = "bad secret"
+debug = true
+
+[postgresql]
+login = 'tthack-user'
+password = 'tthack-password'
+name = 'tthack-db'
+url = 'localhost:5432'
+
+[selectel]
+base_url = "url"
+auth_url = "url"
+upload_url = "url"
+login = "login"
+password = "password"
