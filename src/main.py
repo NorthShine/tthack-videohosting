@@ -5,11 +5,14 @@ from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 
 from src.config import get_config
+from src.db import database
 from src.schemas import Settings
+from src.blueprints.admin.views import router as admin_router
 
 base_settings = get_config()['base']
 
-app = FastAPI(debug=base_settings['debug'])
+app = FastAPI(debug=base_settings['debug'], reload=True)
+app.include_router(admin_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
@@ -17,6 +20,16 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*'],
 )
+
+
+@app.on_event("startup")
+async def startup():
+    await database.connect()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()
 
 
 @AuthJWT.load_config

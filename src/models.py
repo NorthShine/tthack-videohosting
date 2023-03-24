@@ -18,3 +18,4 @@ class Video(Base):
     title = sa.Column(sa.String)
     description = sa.Column(sa.String)
     age_restrictions = sa.Column(sa.Integer, default=0)
+    url = sa.Column(sa.String)
