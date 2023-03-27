@@ -16,8 +16,10 @@ class BaseRepository:
 
 class UserRepository(BaseRepository):
     async def get_user(self, user_id: int):
-        return await self.db.fetch_one(
-            UserModel.select().where(UserModel.c.id == user_id)
+        return src.schemas.User(
+            await self.db.fetch_one(
+                UserModel.select().where(UserModel.c.id == user_id)
+            )
         )
 
     async def get_user_by_username(self, username: str):
@@ -33,25 +35,37 @@ class UserRepository(BaseRepository):
 class VideoRepository(BaseRepository):
     async def get_video(self, video_id: int):
         return await self.db.fetch_one(
-            VideoModel.select().where(VideoModel.c.id == video_id)
+            VideoModel.__table__.select().where(VideoModel.__table__.c.id == video_id)
         )
 
     async def create_video(self, video: src.schemas.VideoCreate):
-        query = VideoModel.insert().values(
+        query = VideoModel.__table__.insert().values(
             title=video.title,
             description=video.description,
             age_restrictions=video.age_restrictions,
         )
         return await self.db.execute(query)
 
+    async def update_video(self, video_id: int, values: dict):
+        query = VideoModel.__table__.update().where(
+            VideoModel.__table__.c.id == video_id,
+        ).values(**values)
+        return await self.db.execute(query)
+
+    async def delete_video(self, video_id: int):
+        query = VideoModel.__table__.delete().where(
+            VideoModel.__table__.c.id == video_id,
+        )
+        return await self.db.execute(query)
+
     async def get_videos(self, q: typing.Optional[str] = None, limit: int = 10, page: int = 1):
-        query = VideoModel.select()
+        query = VideoModel.__table__.select()
         if q:
-            query = query.filter(VideoModel.c.title.ilike(f'%{q}%'))
+            query = query.filter(VideoModel.__table__.c.title.ilike(f'%{q}%'))
         if limit:
             query = query.limit(limit)
         if page:
             query = query.offset((page - 1) * limit)
         return await self.db.fetch_all(
-            query.order_by(VideoModel.c.id.desc())
+            query.order_by(VideoModel.__table__.c.id.desc())
         )

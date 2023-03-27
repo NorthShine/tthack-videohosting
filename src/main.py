@@ -7,12 +7,12 @@ from fastapi_jwt_auth.exceptions import AuthJWTException
 from src.config import get_config
 from src.db import database
 from src.schemas import Settings
-from src.blueprints.admin.views import router as admin_router
+from src.blueprints.video.views import router as video_router
 
 base_settings = get_config()['base']
 
 app = FastAPI(debug=base_settings['debug'], reload=True)
-app.include_router(admin_router)
+app.include_router(video_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],

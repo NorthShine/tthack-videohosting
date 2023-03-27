@@ -29,8 +29,8 @@ class UserPassword(BaseModel):
 
 
 class VideoBase(BaseModel):
-    title: str
-    description: str
+    title: typing.Optional[str]
+    description: typing.Optional[str]
     age_restrictions: typing.Optional[int]
 
 
