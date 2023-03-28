@@ -11,6 +11,7 @@ class Settings(BaseModel):
 
 class UserBase(BaseModel):
     username: str
+    password: str
 
 
 class User(UserBase):
@@ -18,10 +19,6 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
-
-
-class UserCreate(UserBase):
-    password: str
 
 
 class UserPassword(BaseModel):

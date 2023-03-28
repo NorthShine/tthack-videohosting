@@ -1,7 +1,5 @@
 import typing
 
-import bcrypt
-
 from src.models import User as UserModel, Video as VideoModel
 import src.schemas
 from src.config import get_config
@@ -16,20 +14,18 @@ class BaseRepository:
 
 class UserRepository(BaseRepository):
     async def get_user(self, user_id: int):
-        return src.schemas.User(
-            await self.db.fetch_one(
-                UserModel.select().where(UserModel.c.id == user_id)
-            )
+        return await self.db.fetch_one(
+            UserModel.__table__.select().where(UserModel.__table__.c.id == user_id)
         )
 
     async def get_user_by_username(self, username: str):
         return await self.db.fetch_one(
-            UserModel.select().where(UserModel.c.username == username)
+            UserModel.__table__.select().where(UserModel.__table__.c.username == username)
         )
 
     async def verify_password(self, user_id: int, password: str):
         user = await self.get_user(user_id)
-        return bcrypt.hashpw(password.encode('utf-8'), salt.encode('utf-8')) == user.hashed_password
+        return password == user.hashed_password
 
 
 class VideoRepository(BaseRepository):

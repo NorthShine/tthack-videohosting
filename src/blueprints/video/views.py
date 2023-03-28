@@ -1,7 +1,8 @@
 from typing import Optional
 
 import aiofiles
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, UploadFile, Depends
+from fastapi_jwt_auth import AuthJWT
 
 from src.db import database
 from src.repositories import VideoRepository
@@ -23,18 +24,21 @@ async def get_videos(
 
 
 @router.post('/create')
-async def create_video(video: VideoCreate):
+async def create_video(video: VideoCreate, Authorize: AuthJWT = Depends()):
+    Authorize.jwt_required()
     return await video_repo.create_video(video)
 
 
 @router.post('/upload')
-async def upload_video(video: UploadFile):
+async def upload_video(video: UploadFile, Authorize: AuthJWT = Depends()):
+    Authorize.jwt_required()
     async with aiofiles.open(f'{media_directory}/{video.filename}', 'wb') as file:
         await file.write(await video.read())
 
 
 @router.get('/{pk}')
-async def get_video(pk: int):
+async def get_video(pk: int, Authorize: AuthJWT = Depends()):
+    Authorize.jwt_required()
     return await video_repo.get_video(pk)
 
 
@@ -42,10 +46,13 @@ async def get_video(pk: int):
 async def update_video(
     pk: int,
     video: VideoBase,
+    Authorize: AuthJWT = Depends(),
 ):
+    Authorize.jwt_required()
     return await video_repo.update_video(pk, video.dict())
 
 
 @router.delete('/{pk}')
-async def delete_video(pk: int):
+async def delete_video(pk: int, Authorize: AuthJWT = Depends()):
+    Authorize.jwt_required()
     return await video_repo.delete_video(pk)
