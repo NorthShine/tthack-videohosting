@@ -2,13 +2,7 @@
 secret_key = "badsecret"
 debug = true
 admin_password = "badpassword"
+media_directory = "/home/videos"  # as specified in the docker-compose
 
 [postgresql]
 url = 'postgresql://tthack-user:tthack-password@tthack-psql:5432/tthack-db'
-
-[selectel]
-base_url = "url"
-auth_url = "url"
-upload_url = "url"
-login = "login"
-password = "password"
